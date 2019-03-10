@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body style="text-align: center">
+        <h1>Books and Authors Database</h1>
+        <hr>
+        <a style="margin-right: 10px;" href="/author">Add a new author to the database.</a>
+        <a style="margin-left: 10px;" href="/book">Add a new book to the database.</a>
+        <hr>
+        <h2>Atribute Book(s) to Author(s)</h2>
+        <form class="" action="/attribute" method="post">
+            {% csrf_token %}
+            <p>
+                <select name="author">
+                    <option disabled selected value> -- Author -- </option>
+                    {% for author in authors %}
+                    <option value={{author.id}}>{{author.first_name}} {{author.last_name}}</option>
+                    {%endfor%}
+                </select> wrote:
+                <select name="book">
+                    <option disabled selected value> -- Book -- </option>
+                    {% for book in books %}
+                    <option value={{book.id}}>{{book.name}}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <input type="submit" value="Attribute">
+        </form>
+        <hr>
+        <h2>All authors</h2>
+        <table style="text-align: left; margin-left: 560px" border="1">
+            <tr>
+                <th>Author</th>
+                <th>Email</th>
+                <th>Number of Books</th>
+                <th>Delete</th>
+            </tr>
+            {% for author in authors %}
+            <tr>
+                <td><a href="/author/show/{{author.id}}">{{author.first_name}} {{author.last_name}}</a></td>
+                <td>{{author.email}}</td>
+                <td>{{author.books.count}}</td>
+                <td><a href="/delete/author/{{author.id}}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+
+    </body>
+</html>
